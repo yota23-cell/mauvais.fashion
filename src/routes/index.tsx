@@ -158,6 +158,18 @@ function Lock({ onUnlock }: { onUnlock: () => void }) {
 }
 
 function Showcase() {
+  const [muted, setMuted] = useState(() => {
+    const a = getAudio();
+    return a ? a.muted : false;
+  });
+
+  const toggleMute = () => {
+    const a = getAudio();
+    if (!a) return;
+    a.muted = !a.muted;
+    setMuted(a.muted);
+  };
+
   const showcases = [
     {
       title: "Chapitre I — F40",
@@ -177,10 +189,21 @@ function Showcase() {
         <span className="font-serif italic text-2xl">
           mauvais<span className="text-[oklch(0.55_0.22_27)]">.</span>fashion
         </span>
-        <span className="text-[10px] tracking-[0.4em] uppercase text-white/60">
-          SS / FW · 2026
-        </span>
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={toggleMute}
+            className="border border-white/30 px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-colors"
+            aria-label={muted ? "Unmute" : "Mute"}
+          >
+            {muted ? "♪ off" : "♪ on"}
+          </button>
+          <span className="text-[10px] tracking-[0.4em] uppercase text-white/60 hidden sm:inline">
+            SS / FW · 2026
+          </span>
+        </div>
       </header>
+
 
       <section className="px-8 py-20 text-center border-b border-white/10">
         <p className="text-[10px] tracking-[0.5em] uppercase text-white/50">The Archive</p>
