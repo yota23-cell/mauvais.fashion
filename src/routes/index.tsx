@@ -4,9 +4,9 @@ import f40 from "@/assets/f40.jpeg";
 import tshirtBack from "@/assets/tshirt-back.jpg";
 import tshirtFront from "@/assets/tshirt-front.jpg";
 import tshirtSize from "@/assets/tshirt-size.png";
-import look2a from "@/assets/look-2a.jpg";
-import look2b from "@/assets/look-2b.jpg";
-import look2c from "@/assets/look-2c.jpg";
+import look2a from "@/assets/custom-front.png";
+import look2b from "@/assets/custom-back.png";
+import look2c from "@/assets/custom-size.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
