@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import f40 from "@/assets/f40.jpeg";
+
+const SOUND_THEMES = [
+  { id: "timeless", label: "Timeless", artist: "The Weeknd", src: "/audio/timeless.mp3" },
+  { id: "stars", label: "All The Stars", artist: "Kendrick & SZA", src: "/audio/all-the-stars.mp3" },
+  { id: "die", label: "Die For You", artist: "The Weeknd", src: "/audio/die-for-you.mp3" },
+  { id: "double", label: "Double Fantasy", artist: "The Weeknd & Future", src: "/audio/double-fantasy.mp3" },
+];
 import tshirtBack from "@/assets/tshirt-back.jpg";
 import tshirtFront from "@/assets/tshirt-front.jpg";
 import tshirtSize from "@/assets/tshirt-size.png";
@@ -26,6 +33,30 @@ function Index() {
 function Lock({ onUnlock }: { onUnlock: () => void }) {
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
+  const [theme, setTheme] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
+
+  const pickTheme = (id: string, src: string) => {
+    if (theme === id) {
+      audioRef.current?.pause();
+      setTheme(null);
+      return;
+    }
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.5;
+    }
+    audioRef.current.src = src;
+    audioRef.current.play().catch(() => {});
+    setTheme(id);
+  };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
