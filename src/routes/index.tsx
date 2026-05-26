@@ -115,6 +115,36 @@ function Lock({ onUnlock }: { onUnlock: () => void }) {
             Unlock
           </button>
         </form>
+
+        <div className="mt-10">
+          <p className="text-[10px] tracking-[0.45em] text-white/50 uppercase mb-3">Sound Theme</p>
+          <div className="grid grid-cols-2 gap-2">
+            {SOUND_THEMES.map((t) => {
+              const active = theme === t.id;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => pickTheme(t.id, t.src)}
+                  className={`text-left px-3 py-2 border text-[10px] tracking-[0.15em] uppercase transition-colors ${
+                    active
+                      ? "bg-white text-black border-white"
+                      : "border-white/30 text-white/80 hover:border-white"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className={`inline-block w-1.5 h-1.5 rounded-full ${active ? "bg-black animate-pulse" : "bg-white/40"}`} />
+                    <span className="truncate">{t.label}</span>
+                  </div>
+                  <div className={`mt-1 text-[9px] tracking-[0.1em] normal-case ${active ? "text-black/60" : "text-white/40"}`}>
+                    {t.artist}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
 
       <div className="absolute bottom-6 text-[10px] tracking-[0.4em] text-white/40 uppercase z-10">
