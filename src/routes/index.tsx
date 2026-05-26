@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import f40 from "@/assets/f40.jpeg";
-import look1a from "@/assets/look-1a.jpg";
-import look1b from "@/assets/look-1b.jpg";
-import look1c from "@/assets/look-1c.jpg";
+import tshirtBack from "@/assets/tshirt-back.jpg";
+import tshirtFront from "@/assets/tshirt-front.jpg";
+import tshirtSize from "@/assets/tshirt-size.png";
 import look2a from "@/assets/look-2a.jpg";
 import look2b from "@/assets/look-2b.jpg";
 import look2c from "@/assets/look-2c.jpg";
@@ -96,13 +96,13 @@ function Lock({ onUnlock }: { onUnlock: () => void }) {
 function Showcase() {
   const showcases = [
     {
-      title: "Chapitre I — Ombres",
-      subtitle: "Fall / Winter Edit",
-      slides: [look1a, look1b, look1c],
+      title: "Chapitre I — F40",
+      subtitle: "authentic ferrari F40 t-shirt from mauvais.fashion",
+      slides: [tshirtBack, tshirtFront, tshirtSize],
     },
     {
-      title: "Chapitre II — Lumière",
-      subtitle: "Resort Capsule",
+      title: "Chapitre II — Custom",
+      subtitle: "costumize your own favorite car t-shirt with our quality",
       slides: [look2a, look2b, look2c],
     },
   ];
