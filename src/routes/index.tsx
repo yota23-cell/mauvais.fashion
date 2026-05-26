@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import f40 from "@/assets/f40.jpeg";
+
+const SOUND_THEMES = [
+  { id: "timeless", label: "Timeless", artist: "The Weeknd", src: "/audio/timeless.mp3" },
+  { id: "stars", label: "All The Stars", artist: "Kendrick & SZA", src: "/audio/all-the-stars.mp3" },
+  { id: "die", label: "Die For You", artist: "The Weeknd", src: "/audio/die-for-you.mp3" },
+  { id: "double", label: "Double Fantasy", artist: "The Weeknd & Future", src: "/audio/double-fantasy.mp3" },
+];
 import tshirtBack from "@/assets/tshirt-back.jpg";
 import tshirtFront from "@/assets/tshirt-front.jpg";
 import tshirtSize from "@/assets/tshirt-size.png";
@@ -26,6 +33,30 @@ function Index() {
 function Lock({ onUnlock }: { onUnlock: () => void }) {
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
+  const [theme, setTheme] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
+
+  const pickTheme = (id: string, src: string) => {
+    if (theme === id) {
+      audioRef.current?.pause();
+      setTheme(null);
+      return;
+    }
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.5;
+    }
+    audioRef.current.src = src;
+    audioRef.current.play().catch(() => {});
+    setTheme(id);
+  };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,6 +115,36 @@ function Lock({ onUnlock }: { onUnlock: () => void }) {
             Unlock
           </button>
         </form>
+
+        <div className="mt-10">
+          <p className="text-[10px] tracking-[0.45em] text-white/50 uppercase mb-3">Sound Theme</p>
+          <div className="grid grid-cols-2 gap-2">
+            {SOUND_THEMES.map((t) => {
+              const active = theme === t.id;
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => pickTheme(t.id, t.src)}
+                  className={`text-left px-3 py-2 border text-[10px] tracking-[0.15em] uppercase transition-colors ${
+                    active
+                      ? "bg-white text-black border-white"
+                      : "border-white/30 text-white/80 hover:border-white"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className={`inline-block w-1.5 h-1.5 rounded-full ${active ? "bg-black animate-pulse" : "bg-white/40"}`} />
+                    <span className="truncate">{t.label}</span>
+                  </div>
+                  <div className={`mt-1 text-[9px] tracking-[0.1em] normal-case ${active ? "text-black/60" : "text-white/40"}`}>
+                    {t.artist}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
 
       <div className="absolute bottom-6 text-[10px] tracking-[0.4em] text-white/40 uppercase z-10">
