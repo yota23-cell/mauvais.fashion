@@ -8,6 +8,17 @@ const SOUND_THEMES = [
   { id: "die", label: "Die For You", artist: "The Weeknd", src: "/audio/die-for-you.mp3" },
   { id: "double", label: "Double Fantasy", artist: "The Weeknd & Future", src: "/audio/double-fantasy.mp3" },
 ];
+
+let sharedAudio: HTMLAudioElement | null = null;
+function getAudio() {
+  if (typeof window === "undefined") return null;
+  if (!sharedAudio) {
+    sharedAudio = new Audio();
+    sharedAudio.loop = true;
+    sharedAudio.volume = 0.5;
+  }
+  return sharedAudio;
+}
 import tshirtBack from "@/assets/tshirt-back.jpg";
 import tshirtFront from "@/assets/tshirt-front.jpg";
 import tshirtSize from "@/assets/tshirt-size.png";
@@ -34,27 +45,18 @@ function Lock({ onUnlock }: { onUnlock: () => void }) {
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
   const [theme, setTheme] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    return () => {
-      audioRef.current?.pause();
-    };
-  }, []);
 
   const pickTheme = (id: string, src: string) => {
+    const audio = getAudio();
+    if (!audio) return;
     if (theme === id) {
-      audioRef.current?.pause();
+      audio.pause();
       setTheme(null);
       return;
     }
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.5;
-    }
-    audioRef.current.src = src;
-    audioRef.current.play().catch(() => {});
+    audio.src = src;
+    audio.muted = false;
+    audio.play().catch(() => {});
     setTheme(id);
   };
 
@@ -67,6 +69,7 @@ function Lock({ onUnlock }: { onUnlock: () => void }) {
       setTimeout(() => setError(false), 1200);
     }
   };
+
 
   return (
     <main
