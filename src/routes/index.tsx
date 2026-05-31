@@ -276,7 +276,7 @@ function ShowcaseBlock({
   const prev = () => setI((p) => (p - 1 + slides.length) % slides.length);
 
   return (
-    <section className="px-8 py-20 md:py-28">
+    <section className="px-8 py-20 md:py-28 animate-in fade-in-0 slide-in-from-bottom-8 duration-1000">
       <div className="grid md:grid-cols-[1fr_2fr] gap-10 items-center max-w-7xl mx-auto">
         <div>
           <p className="text-[10px] tracking-[0.5em] uppercase text-white/50">
@@ -290,14 +290,14 @@ function ShowcaseBlock({
           <div className="mt-10 flex items-center gap-4">
             <button
               onClick={prev}
-              className="border border-white/40 w-12 h-12 hover:bg-white hover:text-black transition-colors"
+              className="border border-white/40 w-12 h-12 hover:bg-white hover:text-black transition-all hover:scale-110"
               aria-label="Previous slide"
             >
               ←
             </button>
             <button
               onClick={next}
-              className="border border-white/40 w-12 h-12 hover:bg-white hover:text-black transition-colors"
+              className="border border-white/40 w-12 h-12 hover:bg-white hover:text-black transition-all hover:scale-110"
               aria-label="Next slide"
             >
               →
@@ -308,22 +308,38 @@ function ShowcaseBlock({
           </div>
         </div>
 
-        <div className="relative aspect-[4/5] overflow-hidden bg-neutral-900">
-          {slides.map((src, idx) => (
-            <img
-              key={idx}
-              src={src}
-              alt={`${title} look ${idx + 1}`}
-              loading="lazy"
-              width={1024}
-              height={1280}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-                idx === i ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))}
+        <div className="relative aspect-[4/5] overflow-hidden bg-neutral-900 group">
+          <div
+            className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)]"
+            style={{ transform: `translateX(-${i * 100}%)` }}
+          >
+            {slides.map((src, idx) => (
+              <img
+                key={idx}
+                src={src}
+                alt={`${title} look ${idx + 1}`}
+                loading="lazy"
+                width={1024}
+                height={1280}
+                className="w-full h-full flex-shrink-0 object-cover"
+              />
+            ))}
+          </div>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            {slides.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setI(idx)}
+                aria-label={`Slide ${idx + 1}`}
+                className={`h-1 transition-all duration-500 ${
+                  idx === i ? "w-8 bg-white" : "w-4 bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
+
   );
 }
