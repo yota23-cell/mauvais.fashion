@@ -184,8 +184,8 @@ function Showcase() {
   ];
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <header className="flex justify-between items-center px-8 py-6 border-b border-white/10">
+    <main className="min-h-screen bg-black text-white animate-in fade-in-0 duration-700">
+      <header className="flex justify-between items-center px-8 py-6 border-b border-white/10 animate-in fade-in-0 slide-in-from-top-4 duration-700">
         <span className="font-serif italic text-2xl">
           mauvais<span className="text-[oklch(0.55_0.22_27)]">.</span>fashion
         </span>
@@ -193,7 +193,7 @@ function Showcase() {
           <button
             type="button"
             onClick={toggleMute}
-            className="border border-white/30 px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-colors"
+            className="border border-white/30 px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all hover:scale-105"
             aria-label={muted ? "Unmute" : "Mute"}
           >
             {muted ? "♪ off" : "♪ on"}
@@ -205,7 +205,9 @@ function Showcase() {
       </header>
 
 
-      <section className="px-8 py-20 text-center border-b border-white/10">
+
+
+      <section className="px-8 py-20 text-center border-b border-white/10 animate-in fade-in-0 slide-in-from-bottom-6 duration-1000">
         <p className="text-[10px] tracking-[0.5em] uppercase text-white/50">The Archive</p>
         <h1 className="mt-4 font-serif text-6xl md:text-8xl italic tracking-tight">
           Two Showcases.
@@ -221,8 +223,38 @@ function Showcase() {
         ))}
       </div>
 
-      <footer className="px-8 py-10 text-center text-[10px] tracking-[0.4em] uppercase text-white/40">
-        © mauvais.fashion — all looks reserved
+      <footer className="px-8 py-12 border-t border-white/10">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <span className="text-[10px] tracking-[0.4em] uppercase text-white/40">
+            © mauvais.fashion — all looks reserved
+          </span>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://www.instagram.com/mauvais.etny?igsh=MnlzOXg3eTVhNmMz&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-white/30 px-4 py-2 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all hover:scale-105"
+            >
+              Instagram
+            </a>
+            <a
+              href="https://www.tiktok.com/@mauvais.tech"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-white/30 px-4 py-2 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all hover:scale-105"
+            >
+              TikTok
+            </a>
+            <a
+              href="https://wa.me/6283169344133"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-[oklch(0.55_0.22_27)] bg-[oklch(0.55_0.22_27)] text-white px-4 py-2 text-[10px] tracking-[0.3em] uppercase hover:bg-transparent transition-all hover:scale-105"
+            >
+              Demand Us
+            </a>
+          </div>
+        </div>
       </footer>
     </main>
   );
@@ -244,7 +276,7 @@ function ShowcaseBlock({
   const prev = () => setI((p) => (p - 1 + slides.length) % slides.length);
 
   return (
-    <section className="px-8 py-20 md:py-28">
+    <section className="px-8 py-20 md:py-28 animate-in fade-in-0 slide-in-from-bottom-8 duration-1000">
       <div className="grid md:grid-cols-[1fr_2fr] gap-10 items-center max-w-7xl mx-auto">
         <div>
           <p className="text-[10px] tracking-[0.5em] uppercase text-white/50">
@@ -258,14 +290,14 @@ function ShowcaseBlock({
           <div className="mt-10 flex items-center gap-4">
             <button
               onClick={prev}
-              className="border border-white/40 w-12 h-12 hover:bg-white hover:text-black transition-colors"
+              className="border border-white/40 w-12 h-12 hover:bg-white hover:text-black transition-all hover:scale-110"
               aria-label="Previous slide"
             >
               ←
             </button>
             <button
               onClick={next}
-              className="border border-white/40 w-12 h-12 hover:bg-white hover:text-black transition-colors"
+              className="border border-white/40 w-12 h-12 hover:bg-white hover:text-black transition-all hover:scale-110"
               aria-label="Next slide"
             >
               →
@@ -276,22 +308,38 @@ function ShowcaseBlock({
           </div>
         </div>
 
-        <div className="relative aspect-[4/5] overflow-hidden bg-neutral-900">
-          {slides.map((src, idx) => (
-            <img
-              key={idx}
-              src={src}
-              alt={`${title} look ${idx + 1}`}
-              loading="lazy"
-              width={1024}
-              height={1280}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-                idx === i ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))}
+        <div className="relative aspect-[4/5] overflow-hidden bg-neutral-900 group">
+          <div
+            className="flex h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)]"
+            style={{ transform: `translateX(-${i * 100}%)` }}
+          >
+            {slides.map((src, idx) => (
+              <img
+                key={idx}
+                src={src}
+                alt={`${title} look ${idx + 1}`}
+                loading="lazy"
+                width={1024}
+                height={1280}
+                className="w-full h-full flex-shrink-0 object-cover"
+              />
+            ))}
+          </div>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            {slides.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setI(idx)}
+                aria-label={`Slide ${idx + 1}`}
+                className={`h-1 transition-all duration-500 ${
+                  idx === i ? "w-8 bg-white" : "w-4 bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
+
   );
 }
