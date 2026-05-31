@@ -184,8 +184,8 @@ function Showcase() {
   ];
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      <header className="flex justify-between items-center px-8 py-6 border-b border-white/10">
+    <main className="min-h-screen bg-black text-white animate-in fade-in-0 duration-700">
+      <header className="flex justify-between items-center px-8 py-6 border-b border-white/10 animate-in fade-in-0 slide-in-from-top-4 duration-700">
         <span className="font-serif italic text-2xl">
           mauvais<span className="text-[oklch(0.55_0.22_27)]">.</span>fashion
         </span>
@@ -193,7 +193,7 @@ function Showcase() {
           <button
             type="button"
             onClick={toggleMute}
-            className="border border-white/30 px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-colors"
+            className="border border-white/30 px-3 py-1.5 text-[10px] tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all hover:scale-105"
             aria-label={muted ? "Unmute" : "Mute"}
           >
             {muted ? "♪ off" : "♪ on"}
@@ -203,6 +203,8 @@ function Showcase() {
           </span>
         </div>
       </header>
+
+
 
 
       <section className="px-8 py-20 text-center border-b border-white/10 animate-in fade-in-0 slide-in-from-bottom-6 duration-1000">
